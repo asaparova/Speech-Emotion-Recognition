@@ -22,7 +22,7 @@ While multimodal SER is more accurate, **speech-only models** are more practical
 - **Environmental noise**
 - **Data imbalance** (some emotions underrepresented)
 
-### ✅ Solutions
+### Solutions
 - **Noise injection** to simulate real conditions
 - **Random oversampling** to balance emotional classes
 
@@ -72,7 +72,7 @@ While multimodal SER is more accurate, **speech-only models** are more practical
 | CNN-LSTM + Attention     | 55.2%         |
 | CNN-LSTM + Augmentation  | 50.14%        |
 
-###Best Recognized Emotions:
+### Best Recognized Emotions:
 - Anger
 - Happiness
 - Neutral
