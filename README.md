@@ -1,46 +1,90 @@
-Overview
-This project explores deep learning approaches to Speech Emotion Recognition (SER) using two architectures: CNN-GRU and CNN-LSTM with self-attention. The goal is to evaluate their effectiveness on noisy speech data, focusing on computational efficiency and classification accuracy.
+## Overview
+This project investigates deep learning architectures for **Speech Emotion Recognition (SER)** using two models:
+- **CNN-GRU**
+- **CNN-LSTM with self-attention**
 
-Motivation
-Emotion recognition enhances AI applications like virtual assistants, learning environments, and smart recommendations. While multimodal systems are more accurate, speech-only models are more practical and accessible in many real-world contexts (e.g., call centers), where visual or text data may not be available.
+The models are evaluated under noisy and imbalanced conditions using the **CREMA-D** dataset.
 
-Challenges Addressed
-Speaker variability: Emotion expression varies by age, gender, and culture.
+---
 
-Environmental noise: Real-world speech data is often distorted.
+## Motivation
+Emotion recognition improves AI-human interaction in:
+- Virtual assistants
+- Learning environments
+- Smart recommendation systems
 
-Data imbalance: Some emotions are underrepresented in datasets.
+While multimodal SER is more accurate, **speech-only models** are more practical for real-world scenarios where text and visual data are unavailable.
 
-Solutions Used
-Noise injection to simulate real-world environments.
+---
 
-Random oversampling to balance emotional class distribution.
+## Challenges in SER
+- **Speaker variability** (age, gender, ethnicity)
+- **Environmental noise**
+- **Data imbalance** (some emotions underrepresented)
 
-Methodology
-Dataset
-CREMA-D: A labeled dataset of acted emotional speech with diverse speaker demographics.
+### ✅ Solutions
+- **Noise injection** to simulate real conditions
+- **Random oversampling** to balance emotional classes
 
-Feature Extraction
-Log-Mel Spectrograms: Represent speech with perceptually meaningful frequency scaling.
+---
 
-Delta and Delta-Delta Features: Capture dynamic temporal changes in speech.
+## Dataset
+- **CREMA-D**: 7442 audio files of emotional speech by actors.
+- Speech is converted into **log-Mel spectrograms** with **delta** and **delta-delta** features.
 
-Architectures
-CNN-GRU
+---
 
-Convolutional layers extract spatial features from spectrograms.
+## Model Architectures
 
-GRU layers learn temporal dependencies.
+### 1. CNN-GRU + Self-Attention
+- Two 2D CNN layers for spatial features
+- GRU layer for temporal modeling
+- Multi-head self-attention for long-term dependency focus
+- Final dense + softmax layers for classification
 
-CNN-LSTM with Self-Attention
+### 2. CNN-LSTM + Self-Attention
+- Similar to CNN-GRU but uses LSTM instead of GRU
+- More complex but potentially better memory of long-term patterns
 
-Similar to CNN-GRU but includes LSTM layers and a self-attention mechanism to emphasize relevant time frames.
+---
 
-Results
-CNN-GRU achieved a test accuracy of 55.88%.
+## Methodology
 
-CNN-LSTM + Attention scored 55.2%, but showed more signs of overfitting.
+### Preprocessing
+- Normalize audio
+- Standardize to 3 seconds
+- Inject Gaussian noise
+- Convert to log-Mel spectrograms with delta features
+- Stack into 3D tensors: `(time × frequency × 3)`
 
-Emotions like anger, happiness, and neutral were recognized with higher accuracy.
+### Data Handling
+- Train/Validation/Test split: 80/10/10 or adjusted based on experiment
+- Oversampling applied **after** splitting
+- Fine-tuning with data augmentation (pitch shift, volume perturbation, SpecAugment)
 
-Fear and disgust were harder to classify.
+---
+
+## Results
+
+| Model                     | Test Accuracy |
+|--------------------------|---------------|
+| CNN-GRU + Attention      | 55.88%        |
+| CNN-LSTM + Attention     | 55.2%         |
+| CNN-LSTM + Augmentation  | 50.14%        |
+
+###Best Recognized Emotions:
+- Anger
+- Happiness
+- Neutral
+
+### Poorly Recognized Emotions:
+- Fear
+- Disgust
+
+> Overfitting observed in all models. Proper preprocessing (splitting before oversampling) reduced inflated scores seen earlier.
+
+---
+
+## 🔗 Dataset Access
+Download CREMA-D dataset:  
+📁 [Google Drive Link](https://drive.google.com/drive/folders/1zqbsIxbpuTkNj7S2jjDld26DE9XeJyH3?usp=sharing)
